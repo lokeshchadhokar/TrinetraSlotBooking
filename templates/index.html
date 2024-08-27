@@ -32,26 +32,10 @@
             updateAvailableTimes(); // Initial call
         });
     </script>
-    <style>
-
-        .available {
-            background-color: #d4edda; /* Light green */
-        }
-        .first {
-            background-color: #f8d7da; /* Light pink */
-        }
-        .second {
-            background-color: #f5c6cb; /* Light red */
-        }
-        .third {
-            background-color: #f8d7da; /* Slightly different pink for third round */
-        }
-        .final {
-            background-color: #fff3cd; /* Light orange */
-        }
-    </style>
 </head>
 <body>
+
+
     <h1>Book a Slot</h1>
     <form method="POST">
         <label for="user_name">User Name:</label>
@@ -66,6 +50,16 @@
 
         <label for="company_name">Company Name:</label>
         <input type="text" name="company_name" required><br>
+            <!-- Display flash messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li style="color: red;">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 
         <label for="round_name">Round:</label>
         <select name="round_name">

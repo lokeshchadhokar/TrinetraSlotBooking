@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify,redirect,url_for,flash
 import json
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
+# Set the secret key
+app.secret_key = "hvcfh"
 
 # Load booking data from JSON
 def load_data():
@@ -34,6 +36,7 @@ mentor_time_slots = {
     "Amir Sir": ["3pm-4pm", "4pm-5pm", "5pm-6pm"]
 }
 
+block_list = ["ABC", "bcd"]  # Company names to block
 
 # Index page - Booking Form and Slots Display
 @app.route('/', methods=['GET', 'POST'])
@@ -47,6 +50,11 @@ def index():
         booking_date = request.form['date']
         booking_time = request.form['time']
         invite_link = request.form['invite_link']
+
+        # Check if the company name is in the block list
+        if company_name in block_list:
+            flash(f"Booking not allowed for company '{company_name}' as it is blocked.")
+            return redirect(url_for('index'))
 
         # Generate unique code
         unique_code = f"{user_name[:3]}{datetime.now().strftime('%Y%m%d%H%M%S')}"
