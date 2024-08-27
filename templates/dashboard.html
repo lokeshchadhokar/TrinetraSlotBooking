@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Dashboard</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Booking Dashboard</h1>
+
+    {% for mentor, dates in data.items() %}
+    <h2>{{ mentor }}</h2>
+    <table>
+        <tr>
+            <th>Time</th>
+            {% for date in dates %}
+            <th>{{ date }}</th>
+            {% endfor %}
+        </tr>
+        {% for time in mentor_time_slots[mentor] %}
+        <tr>
+            <td>{{ time }}</td>
+            {% for date in dates %}
+            <td>
+                {% if time in dates[date] %}
+                    {% if dates[date][time]['status'] == 'Booked' %}
+                        {{ dates[date][time]['user_name'] }} ({{ dates[date][time]['round'] }})
+                    {% else %}
+                        {{ dates[date][time]['status'] }}
+                    {% endif %}
+                {% else %}
+                    Available
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+</body>
+</html>

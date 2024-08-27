@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book a Slot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Book a Slot</h1>
+    <form method="POST">
+        <label for="user_name">User Name:</label>
+        <input type="text" name="user_name" required><br>
+
+        <label for="technology">Technology:</label>
+        <select name="technology">
+            <option value="PAT">PAT</option>
+            <option value="JAT">JAT</option>
+            <option value="PD">PD</option>
+        </select><br>
+
+        <label for="company_name">Company Name:</label>
+        <input type="text" name="company_name" required><br>
+
+        <label for="round_name">Round:</label>
+        <select name="round_name">
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="final">Final</option>
+        </select><br>
+
+        <label for="mentor">Mentor:</label>
+        <select name="mentor" id="mentor" required>
+            {% for mentor in mentors %}
+            <option value="{{ mentor }}">{{ mentor }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="date">Date:</label>
+        <select name="date" id="date" required>
+            {% for date in dates %}
+            <option value="{{ date }}">{{ date }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="time">Time:</label>
+        <select name="time" id="time" required>
+            <option value="">-- Select a Time Slot --</option>
+        </select><br>
+
+        <label for="invite_link">Invite Link:</label>
+        <input type="text" name="invite_link" required><br>
+
+        <button type="submit">Book Slot</button>
+    </form>
+        <!-- Cancellation Form -->
+    <h2>Cancel Booking</h2>
+    <form method="POST" action="/cancel">
+        <label for="unique_code">Unique Code:</label>
+        <input type="text" name="unique_code" required>
+        <button type="submit">Cancel Booking</button>
+    </form>
+
+    <h2>Available Slots</h2>
+    {% for mentor in mentors %}
+    <h3>{{ mentor }}</h3>
+    <table border="1">
+        <tr>
+            <th>Time</th>
+            {% for date in dates %}
+            <th>{{ date }}</th>
+            {% endfor %}
+        </tr>
+        {% for time in mentor_time_slots[mentor] %}
+        <tr>
+            <td>{{ time }}</td>
+            {% for date in dates %}
+            <td>
+                {% if mentor in data and date in data[mentor] and time in data[mentor][date] %}
+                    {{ data[mentor][date][time]["round"] }} - {{ data[mentor][date][time]["status"] }}
+                {% else %}
+                    Available
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+
+
+
+    <script>
+        $(document).ready(function() {
+            function updateAvailableTimes() {
+                var mentor = $('#mentor').val();
+                var date = $('#date').val();
+                if (mentor && date) {
+                    $.get('/available_times', { mentor: mentor, date: date }, function(data) {
+                        var $timeSelect = $('#time');
+                        $timeSelect.empty();
+                        if (data.available_times.length > 0) {
+                            data.available_times.forEach(function(time) {
+                                $timeSelect.append('<option value="' + time + '">' + time + '</option>');
+                            });
+                        } else {
+                            $timeSelect.append('<option value="">No slots available</option>');
+                        }
+                    });
+                }
+            }
+
+            $('#mentor, #date').change(function() {
+                updateAvailableTimes();
+            });
+
+            updateAvailableTimes(); // Initial call
+        });
+    </script>
+</body>
+</html>

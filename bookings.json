@@ -1,0 +1,162 @@
+{
+    "Tushar Sir": {
+        "27-08-24": {
+            "11am-12pm": {
+                "status": "Available"
+            },
+            "12pm-1pm": {
+                "status": "Available"
+            },
+            "1pm-2pm": {
+                "status": "Available"
+            }
+        },
+        "28-08-24": {
+            "11am-12pm": {
+                "status": "Available"
+            },
+            "12pm-1pm": {
+                "status": "Available"
+            },
+            "1pm-2pm": {
+                "status": "Available"
+            }
+        },
+        "27-08-2024": {
+            "11am-12pm": {
+                "status": "Booked",
+                "user": "lokesh",
+                "company": "nav",
+                "round": "1st",
+                "invite_link": "https://www.tutorialspoint.com/python/index.htm",
+                "unique_code": "lok20240827114319"
+            },
+            "12pm-1pm": {
+                "status": "Booked",
+                "user": "amar",
+                "company": "cog",
+                "round": "1st",
+                "invite_link": "dfdf",
+                "unique_code": "ama20240827141655"
+            }
+        },
+        "28-08-2024": {
+            "11am-12pm": {
+                "status": "Booked",
+                "user": "lokesh",
+                "company": "nav",
+                "round": "1st",
+                "invite_link": "https://www.tutorialspoint.com/python/index.htm",
+                "unique_code": "lok20240827120306"
+            },
+            "1pm-2pm": {
+                "status": "Booked",
+                "user": "lokesh",
+                "company": "nav",
+                "round": "final",
+                "invite_link": "https://www.tutorialspoint.com/python/index.htm",
+                "unique_code": "lok20240827120419"
+            }
+        }
+    },
+    "Chandra Sir": {
+        "27-08-24": {
+            "12pm-1pm": {
+                "status": "Available"
+            },
+            "1pm-2pm": {
+                "status": "Available"
+            },
+            "2pm-3pm": {
+                "status": "Available"
+            },
+            "3pm-4pm": {
+                "status": "Available"
+            },
+            "4pm-5pm": {
+                "status": "Available"
+            },
+            "5pm-6pm": {
+                "status": "Available"
+            },
+            "6pm-7pm": {
+                "status": "Available"
+            }
+        },
+        "28-08-24": {
+            "12pm-1pm": {
+                "status": "Available"
+            },
+            "1pm-2pm": {
+                "status": "Available"
+            },
+            "2pm-3pm": {
+                "status": "Available"
+            },
+            "3pm-4pm": {
+                "status": "Available"
+            },
+            "4pm-5pm": {
+                "status": "Available"
+            },
+            "5pm-6pm": {
+                "status": "Available"
+            },
+            "6pm-7pm": {
+                "status": "Available"
+            }
+        },
+        "27-08-2024": {
+            "12pm-1pm": {
+                "status": "Booked",
+                "user": "lokesh",
+                "company": "ABCD",
+                "round": "1st",
+                "invite_link": "https://www.tutorialspoint.com/python/index.htm",
+                "unique_code": "lok20240827145216"
+            }
+        },
+        "2024-08-28": {
+            "12pm-1pm": {
+                "user_name": "ashish",
+                "technology": "PAT",
+                "company_name": "jjj",
+                "round": "1st",
+                "unique_code": "ashish_2024-08-28_12pm-1pm"
+            }
+        },
+        "2024-08-27": {
+            "12pm-1pm": {
+                "user_name": "lokesh",
+                "technology": "PAT",
+                "company_name": "nav",
+                "round": "1st",
+                "unique_code": "lokesh_2024-08-27_12pm-1pm"
+            }
+        }
+    },
+    "Amir Sir": {
+        "27-08-24": {
+            "3pm-4pm": {
+                "status": "Available"
+            },
+            "4pm-5pm": {
+                "status": "Available"
+            },
+            "5pm-6pm": {
+                "status": "Available"
+            }
+        },
+        "28-08-24": {
+            "3pm-4pm": {
+                "status": "Available"
+            },
+            "4pm-5pm": {
+                "status": "Available"
+            },
+            "5pm-6pm": {
+                "status": "Available"
+            }
+        }
+    }
+}
