@@ -4,6 +4,52 @@
     <meta charset="UTF-8">
     <title>Book a Slot</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function updateAvailableTimes() {
+                var mentor = $('#mentor').val();
+                var date = $('#date').val();
+                if (mentor && date) {
+                    $.get('/available_times', { mentor: mentor, date: date }, function(data) {
+                        var $timeSelect = $('#time');
+                        $timeSelect.empty();
+                        $timeSelect.append('<option value="">Select a time slot</option>');
+                        if (data.available_times.length > 0) {
+                            data.available_times.forEach(function(time) {
+                                $timeSelect.append('<option value="' + time + '">' + time + '</option>');
+                            });
+                        } else {
+                            $timeSelect.append('<option value="">No slots available</option>');
+                        }
+                    });
+                }
+            }
+
+            $('#mentor, #date').change(function() {
+                updateAvailableTimes();
+            });
+
+            updateAvailableTimes(); // Initial call
+        });
+    </script>
+    <style>
+
+        .available {
+            background-color: #d4edda; /* Light green */
+        }
+        .first {
+            background-color: #f8d7da; /* Light pink */
+        }
+        .second {
+            background-color: #f5c6cb; /* Light red */
+        }
+        .third {
+            background-color: #f8d7da; /* Slightly different pink for third round */
+        }
+        .final {
+            background-color: #fff3cd; /* Light orange */
+        }
+    </style>
 </head>
 <body>
     <h1>Book a Slot</h1>
@@ -53,7 +99,8 @@
 
         <button type="submit">Book Slot</button>
     </form>
-        <!-- Cancellation Form -->
+
+    <!-- Cancellation Form -->
     <h2>Cancel Booking</h2>
     <form method="POST" action="/cancel">
         <label for="unique_code">Unique Code:</label>
@@ -77,7 +124,7 @@
             {% for date in dates %}
             <td>
                 {% if mentor in data and date in data[mentor] and time in data[mentor][date] %}
-                    {{ data[mentor][date][time]["user_name"] }} - {{ data[mentor][date][time]["status"] }}
+                    {{ data[mentor][date][time]["user"] }} - {{ data[mentor][date][time]["round"] }}
                 {% else %}
                     Available
                 {% endif %}
@@ -87,35 +134,5 @@
         {% endfor %}
     </table>
     {% endfor %}
-
-
-
-    <script>
-        $(document).ready(function() {
-            function updateAvailableTimes() {
-                var mentor = $('#mentor').val();
-                var date = $('#date').val();
-                if (mentor && date) {
-                    $.get('/available_times', { mentor: mentor, date: date }, function(data) {
-                        var $timeSelect = $('#time');
-                        $timeSelect.empty();
-                        if (data.available_times.length > 0) {
-                            data.available_times.forEach(function(time) {
-                                $timeSelect.append('<option value="' + time + '">' + time + '</option>');
-                            });
-                        } else {
-                            $timeSelect.append('<option value="">No slots available</option>');
-                        }
-                    });
-                }
-            }
-
-            $('#mentor, #date').change(function() {
-                updateAvailableTimes();
-            });
-
-            updateAvailableTimes(); // Initial call
-        });
-    </script>
 </body>
 </html>
