@@ -5,44 +5,78 @@
     <title>Book a Slot</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            function updateAvailableTimes() {
-                var mentor = $('#mentor').val();
-                var date = $('#date').val();
-                if (mentor && date) {
-                    $.get('/available_times', { mentor: mentor, date: date }, function(data) {
-                        var $timeSelect = $('#time');
-                        $timeSelect.empty();
-                        $timeSelect.append('<option value="">Select a time slot</option>');
-                        if (data.available_times.length > 0) {
-                            data.available_times.forEach(function(time) {
-                                $timeSelect.append('<option value="' + time + '">' + time + '</option>');
-                            });
-                        } else {
-                            $timeSelect.append('<option value="">No slots available</option>');
-                        }
-                    });
-                }
+    $(document).ready(function() {
+        // Function to update available times based on selected mentor and date
+        function updateAvailableTimes() {
+            var mentor = $('#mentor').val();
+            var date = $('#date').val();
+            if (mentor && date) {
+                $.get('/available_times', { mentor: mentor, date: date }, function(data) {
+                    var $timeSelect = $('#time');
+                    $timeSelect.empty();
+                    $timeSelect.append('<option value="">Select a time slot</option>');
+                    if (data.available_times.length > 0) {
+                        data.available_times.forEach(function(time) {
+                            $timeSelect.append('<option value="' + time + '">' + time + '</option>');
+                        });
+                    } else {
+                        $timeSelect.append('<option value="">No slots available</option>');
+                    }
+                });
+            }
+        }
+
+        // Initial update of available time slots
+        $('#mentor, #date').change(function() {
+            updateAvailableTimes();
+        });
+
+        // Update mentors based on selected technology
+        $('#technology').change(function() {
+            var technology = $(this).val();
+            var mentorSelect = $('#mentor');
+
+            // Clear existing options
+            mentorSelect.empty();
+
+            // Mentor options based on technology
+            var mentorsForTechnology = {
+                "PAT": ["Chandra Sir", "Amir Sir", "Tushar Sir"],
+                "JAT": ["Chandra Sir"],
+                "PD": ["Chandra Sir"]
+            };
+
+            if (technology in mentorsForTechnology) {
+                var mentors = mentorsForTechnology[technology];
+                mentorSelect.append('<option value="">Select Mentor</option>');
+                $.each(mentors, function(index, mentor) {
+                    mentorSelect.append('<option value="' + mentor + '">' + mentor + '</option>');
+                });
+            } else {
+                mentorSelect.append('<option value="">No mentors available</option>');
             }
 
-            $('#mentor, #date').change(function() {
-                updateAvailableTimes();
-            });
-
-            updateAvailableTimes(); // Initial call
+            // Trigger change event to update available time slots if date is already selected
+            mentorSelect.trigger('change');
         });
+
+        // Trigger an initial update to populate mentors if technology is pre-selected
+        $('#technology').trigger('change');
+
+        // Initial call to update available time slots
+        updateAvailableTimes();
+    });
     </script>
 </head>
 <body>
-
-
     <h1>Book a Slot</h1>
     <form method="POST">
         <label for="user_name">User Name:</label>
         <input type="text" name="user_name" required><br>
 
         <label for="technology">Technology:</label>
-        <select name="technology">
+        <select name="technology" id="technology" required>
+            <option value="">Select Technology</option>
             <option value="PAT">PAT</option>
             <option value="JAT">JAT</option>
             <option value="PD">PD</option>
@@ -50,8 +84,9 @@
 
         <label for="company_name">Company Name:</label>
         <input type="text" name="company_name" required><br>
-            <!-- Display flash messages -->
-    {% with messages = get_flashed_messages() %}
+
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages() %}
         {% if messages %}
             <ul>
             {% for message in messages %}
@@ -59,7 +94,7 @@
             {% endfor %}
             </ul>
         {% endif %}
-    {% endwith %}
+        {% endwith %}
 
         <label for="round_name">Round:</label>
         <select name="round_name">
@@ -71,9 +106,7 @@
 
         <label for="mentor">Mentor:</label>
         <select name="mentor" id="mentor" required>
-            {% for mentor in mentors %}
-            <option value="{{ mentor }}">{{ mentor }}</option>
-            {% endfor %}
+            <option value="">Select Mentor</option>
         </select><br>
 
         <label for="date">Date:</label>
